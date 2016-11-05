@@ -27,7 +27,6 @@ block content
 			$('.avatar_img').click(function(){
 				var avatar = $(this).attr('src');
 				document.cookie = "avatar=" + avatar;
-				window.location.href = "/chat";
 			});
 		});
 	h1='Selecciona un avatar'
@@ -36,5 +35,4 @@ block content
 	-var n = 1;
 	while n < 45
 		div.avatars
-			img.avatar_img(src='/img/avatar/avatar-' + n++ + '.png')
-			span.glyphicon.glyphicon-plus-sign.btn-lg
+			a(href="/chat"): img.avatar_img(src='/img/avatar/avatar-' + n++ + '.png')
