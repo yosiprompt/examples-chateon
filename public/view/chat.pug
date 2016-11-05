@@ -53,7 +53,6 @@ block content
 						mostrarUsuario(value.nombre, value.avatar, idLocal);
 						$('#msgta').keypress(function(){
 							socket.emit('mensaje', $('#msgta').val());
-							console.log('vamos a ver: ' + $('#msgta').val());
 						});
 						$('#cls').click(function(){
 							$('#msgta').val("");
