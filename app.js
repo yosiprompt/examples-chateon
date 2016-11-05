@@ -8,6 +8,8 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+var port = process.env.PORT || 3000;
+
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, '/public/view'));
 
@@ -19,6 +21,6 @@ app.use(express.static(path.join(__dirname, '/public')));
 require('./app/routes.js')(app, io);
 
 
-http.listen(3000, function() {
-	console.log('escuchando en puerto 3000');
+http.listen(port, function() {
+	console.log('escuchando en puerto ' + port);
 });
