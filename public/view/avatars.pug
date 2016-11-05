@@ -1,0 +1,40 @@
+extends layout.pug
+
+block content
+	style.
+		.avatars {
+			position: relative;
+			display: inline-block;
+		}
+		.avatar_img {
+			position: relative;
+			display: inline-block;
+			margin: 15px;
+		}
+		.avatar_img:hover {
+			cursor: pointer;
+			opacity: 0.5;
+		}
+		.glyphicon {
+			position: relative;
+			display: none;
+			top: 10px;
+			left: -100px;
+		}
+
+	script.
+		$(document).ready(function(){
+			$('.avatar_img').click(function(){
+				var avatar = $(this).attr('src');
+				document.cookie = "avatar=" + avatar;
+				window.location.href = "/chat";
+			});
+		});
+	h1='Selecciona un avatar'
+	p='Para poder empezar a compartir con tus amigos debes seleccionar un avatar de tu preferencia.'
+	hr
+	-var n = 1;
+	while n < 45
+		div.avatars
+			img.avatar_img(src='/img/avatar/avatar-' + n++ + '.png')
+			span.glyphicon.glyphicon-plus-sign.btn-lg

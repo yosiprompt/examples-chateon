@@ -1,0 +1,13 @@
+extends layout.pug
+
+block content
+	script.
+		$(document).ready(function(){
+			Cookies.remove('avatar');
+		})
+	div.jumbotron
+		h1= 'Gracias por usar nuestra aplicacion'
+			br
+			small= 'Esperamos verte pronto de regreso'
+		a.btn.btn-primary.btn-lg(href='/chat')='Chat '
+			span.glyphicon.glyphicon-comment

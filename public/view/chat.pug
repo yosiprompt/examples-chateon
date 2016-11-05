@@ -1,0 +1,77 @@
+extends layout.pug
+
+block content
+	style.
+		#usuarios > div {
+			position: relative;
+			display: inline-block;
+		}
+		#msg {
+			position: relative;
+			top: -200px;
+			left: 185px;
+		}
+
+		#msgta {
+			height: 80px;
+			width: 200px;
+		}
+		#rspst {
+			position: relative;
+			top: -200px;
+			left: 190px;
+			width: 200px;
+			height: 80px;
+		}
+		#msg_img {
+			z-index: -1;
+		}
+	script.
+		function mostrarUsuario(id, avatar, idLocal=null){
+			var tmp = '';
+			var imgAvatar = '<img src="' + avatar + '">';
+			var img_msg = '<img id="msg_img" src="/img/l_msg.png" width="300" height="244"/>';
+			var txtArea = '<div id="msg"><textarea id="msgta"></textarea><br><button id="cls" class="btn btn-xs">Limpiar</button></div>';
+			var p_rspst = '<p id="rspst"></p>';
+			if($('#' + id).length==0){
+				if(idLocal == id){
+					tmp = '<div id="'+ id + '">' + imgAvatar + img_msg + txtArea + '</div>';
+				}else {
+					tmp = '<div id="'+ id + '">' + imgAvatar + img_msg + p_rspst + '</div>';
+				}
+				$('#usuarios').append(tmp);
+				console.log(tmp);
+			}
+		}
+		$(document).ready(function(){
+			var socket = io();
+			var idLocal = '';
+			socket.on('connect', function () {
+				socket.emit('registrar usuario', Cookies.get('avatar'), function(data, idLocal){
+					this.idLocal = idLocal;
+					$.each(data, function(index, value){
+						mostrarUsuario(value.nombre, value.avatar, idLocal);
+						$('#msgta').keypress(function(){
+							socket.emit('mensaje', $('#msgta').val());
+							console.log('vamos a ver: ' + $('#msgta').val());
+						});
+						$('#cls').click(function(){
+							$('#msgta').val("");
+						});
+					});
+				});
+			});
+			socket.on('usuario conectado', function(id, avatar){
+				mostrarUsuario(id, avatar);
+			});
+			socket.on('usuario desconectado', function(id){
+				$('#'+ id).remove();
+			});
+
+			
+			socket.on('mensaje', function(msg, id){
+				$('#' + id + ' > p').html(msg);
+			});
+		});
+	h1='Estamos en el chat'
+	div#usuarios
