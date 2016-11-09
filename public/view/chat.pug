@@ -40,7 +40,6 @@ block content
 					tmp = '<div id="'+ id + '">' + imgAvatar + img_msg + p_rspst + '</div>';
 				}
 				$('#usuarios').append(tmp);
-				console.log(tmp);
 			}
 		}
 		$(document).ready(function(){
@@ -66,10 +65,14 @@ block content
 			socket.on('usuario desconectado', function(id){
 				$('#'+ id).remove();
 			});
-
-			
 			socket.on('mensaje', function(msg, id){
 				$('#' + id + ' > p').html(msg);
+				document.title = '(N)Chateo';
+			});
+			$(document).focus(function(){
+				if(document.title == '(N)Chateo'){
+					document.title = 'Chateo';
+				}
 			});
 		});
 	h1='Estamos en el chat'
